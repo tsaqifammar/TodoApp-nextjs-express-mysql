@@ -24,17 +24,34 @@ app.prepare()
 		// parse application/json
 		server.use(bodyParser.json());
 
+		// Untuk nambahkan todo ke database
 		server.post("/server", async (req, res) => {
-			const { todo } = req.body;
+			try {
+				const { todo } = req.body;
 
-			const newTodo = new Todo({
-				task_name: todo,
-				is_done: false,
-			});
+				const newTodo = new Todo({
+					task_name: todo,
+					is_done: false,
+				});
 
-			await newTodo.save().catch((err) => console.error(err));
+				await newTodo.save();
 
-			res.json(newTodo);
+				res.json(newTodo);
+			} catch (error) {
+				console.log(error);
+				res.status(500).send("Server Error");
+			}
+		});
+
+		// Untuk mengambil semua data 'todo' di database
+		server.get("/server", async (req, res) => {
+			try {
+				const getAllTodos = await Todo.findAll({});
+				res.json(getAllTodos);
+			} catch (error) {
+				console.log(error);
+				res.status(500).send("Server Error");
+			}
 		});
 
 		// A wildcard route to catch all routes and return it to the handler function. Handler function itu bakal redirect ke page 404 error gaje
