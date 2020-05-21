@@ -1,7 +1,7 @@
-const OneElement = (props) => {
+const OneElement = (props) => (
 	<div>
-		<h1>Hello world!</h1>
-	</div>;
-};
+		<p>{props.todo.task_name}</p>
+	</div>
+);
 
 export default OneElement;

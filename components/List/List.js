@@ -1,4 +1,5 @@
 import React from "react";
+import OneElement from "./OneElement";
 
 // TODO : isi List ini todos dengan button delete dan update
 // * jadi read dari database? trus print dengan corresponding stuff ?
@@ -20,10 +21,13 @@ class List extends React.Component {
 	render() {
 		return (
 			<div className="container">
+				<h1>Todos : </h1>
 				{this.state.loading ? (
 					<div>Loading...</div>
 				) : (
-					<div>Hello world!</div>
+					this.state.todosList.map((todo) => (
+						<OneElement key={todo.id} todo={todo} />
+					))
 				)}
 			</div>
 		);
