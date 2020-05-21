@@ -1,12 +1,14 @@
 import Navbar from "../components/Navbar/Navbar";
 import Head from "next/head";
 
+const initialState = {
+	todo: "",
+};
+
 class Crud extends React.Component {
 	constructor() {
 		super();
-		this.state = {
-			todo: "",
-		};
+		this.state = initialState;
 	}
 
 	handleChange = (evt) => {
@@ -20,6 +22,8 @@ class Crud extends React.Component {
 		evt.preventDefault();
 		const dataSubmit = this.state;
 		console.log(dataSubmit);
+		// clear form
+		this.setState(initialState);
 		// making a post request with the fetch API
 		fetch("/server", {
 			method: "POST",
