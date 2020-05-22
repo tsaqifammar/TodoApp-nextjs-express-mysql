@@ -66,5 +66,5 @@ select {
 	margin: auto;
 	width: 80%;
 	overflow: hidden;
-	text-align: center;
+	/* text-align: center; */
 }
