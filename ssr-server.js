@@ -54,6 +54,33 @@ app.prepare()
 			}
 		});
 
+		// Untuk update habis toggle is_done dari sebuah todo
+		server.put("/server/done/:id", async (req, res) => {
+			try {
+				const id = req.params.id;
+				console.log("Data yang diupdate dengan id : ", id);
+				console.log("data = ", req.body);
+				const { task_name, is_done } = req.body;
+				const updateUser = await Todo.update(
+					{
+						task_name,
+						is_done,
+					},
+					{
+						where: {
+							id: id,
+						},
+					}
+				);
+
+				await updateUser;
+				res.json("Data berhasil diupdate");
+			} catch (error) {
+				console.log(error);
+				res.status(500).send("Server Error");
+			}
+		});
+
 		// A wildcard route to catch all routes and return it to the handler function. Handler function itu bakal redirect ke page 404 error gaje
 		server.get("*", (req, res) => {
 			return handle(req, res);

@@ -18,6 +18,35 @@ class List extends React.Component {
 		this.setState({ todosList: data, loading: false });
 	}
 
+	toggleComplete = async (id) => {
+		// console.log(id, "Toggled!");
+		let todoUpdate;
+		this.setState({
+			todosList: this.state.todosList.map((todo) => {
+				if (todo.id === id) {
+					todoUpdate = todo;
+					todoUpdate.is_done = !todoUpdate.is_done;
+					return todoUpdate;
+				} else {
+					return todo;
+				}
+			}),
+		});
+		// console.log(todoUpdate);
+		const url = "/server/done/" + id;
+		fetch(url, {
+			method: "PUT",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(todoUpdate),
+		})
+			.then((res) => res.json())
+			.then((data) => console.log(data))
+			.catch((error) => console.log(error));
+	};
+
 	render() {
 		return (
 			<div className="container">
@@ -26,7 +55,11 @@ class List extends React.Component {
 					<div>Loading...</div>
 				) : (
 					this.state.todosList.map((todo) => (
-						<OneElement key={todo.id} todo={todo} />
+						<OneElement
+							key={todo.id}
+							todo={todo}
+							toggleComplete={this.toggleComplete}
+						/>
 					))
 				)}
 			</div>
