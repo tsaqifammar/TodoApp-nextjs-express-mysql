@@ -1,9 +1,6 @@
 import React from "react";
 import OneElement from "./OneElement";
 
-// TODO : isi List ini todos dengan button delete dan update
-// * jadi read dari database? trus print dengan corresponding stuff ?
-
 class List extends React.Component {
 	state = {
 		loading: true,
