@@ -18,7 +18,7 @@ class List extends React.Component {
 		this.setState({ todosList: data, loading: false });
 	}
 
-	toggleComplete = async (id) => {
+	toggleComplete = (id) => {
 		// console.log(id, "Toggled!");
 		let todoUpdate;
 		this.setState({
@@ -47,6 +47,16 @@ class List extends React.Component {
 			.catch((error) => console.log(error));
 	};
 
+	deleteTodo = async (id) => {
+		const url = "/server/" + id;
+		fetch(url, {
+			method: "DELETE",
+		});
+		this.setState({
+			todosList: this.state.todosList.filter((todo) => todo.id !== id),
+		});
+	};
+
 	render() {
 		return (
 			<div className="container">
@@ -59,9 +69,17 @@ class List extends React.Component {
 							key={todo.id}
 							todo={todo}
 							toggleComplete={this.toggleComplete}
+							deleteTodo={this.deleteTodo}
 						/>
 					))
 				)}
+				<div>
+					Todos left :{" "}
+					{
+						this.state.todosList.filter((todo) => !todo.is_done)
+							.length
+					}
+				</div>
 			</div>
 		);
 	}

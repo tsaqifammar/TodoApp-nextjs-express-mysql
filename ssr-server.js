@@ -58,8 +58,6 @@ app.prepare()
 		server.put("/server/done/:id", async (req, res) => {
 			try {
 				const id = req.params.id;
-				console.log("Data yang diupdate dengan id : ", id);
-				console.log("data = ", req.body);
 				const { task_name, is_done } = req.body;
 				const updateUser = await Todo.update(
 					{
@@ -74,7 +72,24 @@ app.prepare()
 				);
 
 				await updateUser;
-				res.json("Data berhasil diupdate");
+				res.json("Todo berhasil diupdate");
+			} catch (error) {
+				console.log(error);
+				res.status(500).send("Server Error");
+			}
+		});
+
+		// Untuk delete todo dengan sebuah id
+		server.delete("/server/:id", async (req, res) => {
+			try {
+				const id = req.params.id;
+				const deleteUser = await Todo.destroy({
+					where: {
+						id: id,
+					},
+				});
+				await deleteUser;
+				res.json("Todo berhasil di delete");
 			} catch (error) {
 				console.log(error);
 				res.status(500).send("Server Error");
@@ -95,15 +110,3 @@ app.prepare()
 		console.error(ex.stack);
 		process.exit(1);
 	});
-
-// In the code below, we use the popular express routing to define such routes, then we pass the
-// page that should be loaded and the id as a query param to the main Next app. Here the call /p?id=2 happens
-// under the hood where no one can see what is going on.
-
-// The regular user sees the URL as /p/2/.
-
-// server.get("/p/:id", (req, res) => {
-// 	const actualPage = "/post";
-// 	const queryParams = { id: req.params.id };
-// 	app.render(req, res, actualPage, queryParams);
-// });

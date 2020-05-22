@@ -18,7 +18,7 @@ class Navbar extends React.Component {
 						</li>
 						<li className={styles.navlist}>
 							<Link href="/crud">
-								<a>CRUD</a>
+								<a>Add Todo</a>
 							</Link>
 						</li>
 					</ul>
